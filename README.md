@@ -131,36 +131,36 @@ end
 I'm going to use Jenkins via public IP address I configured for VM. To start use Jenkins just paste the URL http://192.168.100.100:8080 in a browser.
 
 #### Step 1: Unlock Jenkins
-![Alt-текст](https://github.com/edwardkolb/sudoku-cicd/blob/master/Pics/Unlock%20page.png)
+![Alt-текст](https://github.com/edwardkolb/demo/blob/master/Pics/Unlock%20page.png)
 :memo: ***Note:** To skip necessity check initialAdminPasswordlogin on server I configured following tasks in ansible playbook: "WAIT FOR JENKINS TO STARTUP" and "RETRIEVE JENKINS UNLOCK CODE". Just copy unlock code from task result and paste as Administrator password on "Unlock Jenkins" web-page*
 
 #### Step 2: Install suggested plugins
 You can install either the suggested plugins or selected plugins you choose. To keep it simple, we will install the suggested plugins.
-![Alt-текст](https://github.com/edwardkolb/sudoku-cicd/blob/master/Pics/install%20pluging.png)
+![Alt-текст](https://github.com/edwardkolb/demo/blob/master/Pics/install%20pluging.png)
 :memo: ***Note:** You can install either the suggested plugins or selected plugins you choose. To keep it simple, we will install the suggested plugins.*
 
 #### Step 3: Create First Admin User
 The next thing that you should do is create an Admin user for Jenkins. Then, enter your details and click **“Save and Continue”**.
-![Alt-текст](https://github.com/edwardkolb/sudoku-cicd/blob/master/Pics/Admin%20pwd.png)
+![Alt-текст](https://github.com/edwardkolb/demo/blob/master/Pics/Admin%20pwd.png)
 
 #### Step 4: Instance Configuration
 Click **“Save and Finish”** to complete the Jenkins installation.
-![Alt-текст](https://github.com/edwardkolb/sudoku-cicd/blob/master/Pics/Instance.png)
+![Alt-текст](https://github.com/edwardkolb/demo/blob/master/Pics/Instance.png)
 
 #### Step 5: Unlock Jenkins is ready!
 Now, click “Start using Jenkins” to start Jenkins.
-![Alt-текст](https://github.com/edwardkolb/sudoku-cicd/blob/master/Pics/Start%20using.png)
+![Alt-текст](https://github.com/edwardkolb/demo/blob/master/Pics/Start%20using.png)
 
 
 ## Jenkins Global Tools Configuration
 Go to Jenkins configuration to configure global configuration tools. Configure JDK and Maven.
 
-![Alt-текст](https://github.com/edwardkolb/sudoku-cicd/blob/master/Pics/globalconfig.png)
+![Alt-текст](https://github.com/edwardkolb/demo/blob/master/Pics/globalconfig.png)
 
-![Alt-текст](https://github.com/edwardkolb/sudoku-cicd/blob/master/Pics/jdk.png)
+![Alt-текст](https://github.com/edwardkolb/demo/blob/master/Pics/jdk.png)
 :memo: ***Note:** To Install Oracle Java SE Development Kit, you should have oracle account.*
 
-![Alt-текст](https://github.com/edwardkolb/sudoku-cicd/blob/master/Pics/mvn.png)
+![Alt-текст](https://github.com/edwardkolb/demo/blob/master/Pics/mvn.png)
 
 
 ## Jenkins Plugins Manager
