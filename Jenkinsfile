@@ -23,7 +23,7 @@ pipeline{
         stage('Checkstyle') {
             steps {
             	sh "mvn checkstyle:check"
-                recordIssues(tool: [checkStyle(pattern: 'target/checkstyle-result.xml', reportEncoding: 'UTF-8')])
+                recordIssues(tools: [checkStyle(pattern: 'target/checkstyle-result.xml', reportEncoding: 'UTF-8')])
             }
 		}
 	}
