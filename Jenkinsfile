@@ -16,7 +16,7 @@ pipeline{
 		stage('Build'){
 			steps{
 				sh "mvn -version"
-				sh "mvn -f pom.xml clean install checkstyle:checkstyle"
+				sh "mvn -f pom.xml clean install checkstyle:check"
 			}
 		}
 
