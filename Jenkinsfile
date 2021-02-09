@@ -16,13 +16,13 @@ pipeline{
 		stage('Build'){
 			steps{
 				sh "mvn -version"
-				sh "mvn -f pom.xml clean install checkstyle:checkstyle"
+				sh "mvn -f pom.xml clean install checkstyle:check"
 			}
 		}
 
 		stage ('Analysis') {
             steps {
-                sh '${M2_HOME}/bin/mvn --batch-mode -V -U -e checkstyle:checkstyle'
+                sh '${M2_HOME}/bin/mvn --batch-mode -V -U -e checkstyle:check'
             }
         
     
