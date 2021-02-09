@@ -16,7 +16,7 @@ pipeline{
 		stage('Build'){
 			steps{
 				sh "mvn -version"
-				sh "mvn -f pom.xml clean install"
+				sh "mvn -f pom.xml clean install checkstyle:checkstyle"
 			}
 		}
 
@@ -29,9 +29,7 @@ pipeline{
 			post {
 				always {
 					junit testResults: '**/target/surefire-reports/TEST-*.xml'
-					recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
 					recordIssues enabledForFailure: true, tool: checkStyle()
-					cleanWs()
 				}
 			}
 		}
