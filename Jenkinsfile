@@ -16,14 +16,15 @@ pipeline{
 		stage('Build'){
 			steps{
 				sh "mvn -version"
-				sh "mvn -f pom.xml clean install checkstyle:check"
+				sh "mvn -f pom.xml clean install"
 			}
 		}
 
-		stage ('Analysis') {
-			steps{
-				recordIssues enabledForFailure: true, aggregatingResults: true, tool: checkStyle(pattern: 'target/checkstyle-result.xml', reportEncoding: 'UTF-8')
-			}
+        stage('Checkstyle') {
+            steps {
+            	sh "mvn checkstyle:check"
+                recordIssues(tools: [checkStyle(reportEncoding: 'UTF-8')])
+            }
 		}
 	}
 }
