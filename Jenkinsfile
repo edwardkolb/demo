@@ -21,7 +21,9 @@ pipeline{
 		}
 
 		stage ('Analysis') {
-			recordIssues enabledForFailure: true, aggregatingResults: true, tool: checkStyle(pattern: 'checkstyle-result.xml')
+			steps{
+				recordIssues enabledForFailure: true, aggregatingResults: true, tool: checkStyle(pattern: 'checkstyle-result.xml')
+			}
 		}
 	}
 }
