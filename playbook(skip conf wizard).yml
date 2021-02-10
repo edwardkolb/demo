@@ -1,0 +1,92 @@
+---
+- hosts: all
+  become: True
+
+  tasks:
+    - name: UPGRADE PACKAGES
+      apt: upgrade=dist update_cache=yes cache_valid_time=3600
+
+    - name: INSTALL BASE PACKAGES
+      apt: 
+        name:
+          - sudo
+          - git
+          - python
+          - python3
+          - python-pip
+          - python3-pip
+          - default-jre
+        state: present
+        autoclean: yes
+
+    - name: ADD JENKINS REPOSITORY KEY
+      apt_key:
+        url: "https://pkg.jenkins.io/debian/jenkins.io.key"
+        state: present
+
+    - name: CLEAN APT LISTS
+      file:
+        path: "/var/lib/apt/lists/*"
+        state: absent
+
+    - name: UPDATE APT FOLLOWING APT MERGELISTS FIX
+      apt: update_cache=yes
+
+    - name: ADD JENKINS REPOSITORY
+      apt_repository:
+        repo: "deb http://pkg.jenkins.io/debian-stable binary/"
+        state: present
+
+    - name: INSTALL JENKINS
+      apt: name=jenkins update_cache=yes cache_valid_time=3600
+
+    - name: ALLOW SUDO GROUP TO HAVE PASSWORDLESS SUDO
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%sudo'
+        line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+
+    - name: Wait for Jenkins to start up
+      uri:
+        url: "http://192.168.100.100:8080/login?from=%2F"
+        status_code: 200
+        timeout: 5
+      register: jenkins_service_status
+      # Keep trying for 5 mins in 5 sec intervals
+      retries: 60
+      delay: 5
+      until: >
+         'status' in jenkins_service_status and
+         jenkins_service_status['status'] == 200
+
+    - name: read admin pwd
+      shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
+      register: adminpwd
+
+    - name: unlock and add admin user
+      jenkins_script:
+        script: |
+          import jenkins.model.*
+          import hudson.security.*
+          def instance = Jenkins.getInstance()
+          def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+          hudsonRealm.createAccount('admin', 'admin')
+          instance.setSecurityRealm(hudsonRealm)
+          def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+          strategy.setAllowAnonymousRead(false)
+          instance.setAuthorizationStrategy(strategy)
+          instance.save()
+          import static jenkins.model.Jenkins.instance as jenkins
+          import jenkins.install.InstallState
+          if (!jenkins.installState.isSetupComplete()) {
+          InstallState.INITIAL_SETUP_COMPLETED.initializeState()
+          }
+        args:
+          user_pwd: admin
+        user: admin
+        password: "{{ adminpwd.stdout }}"
+      
+  
+
+ 
